@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export\n#' @importFrom utils head tail \n#' @importFrom graphics par axis title plot rect legend\n#' @importFrom mhsmm simulate.hmmspec hmmspec dnorm.hsmm rnorm.hsmm\n#' @importFrom PhysicalActivity dataCollapser\n\naccBatch <- function(path, tri='TRUE', axis='vm',\n                     spuriousDef=20, nonwearDef=60, minWear=600, \n                     patype=c('Sedentary','MVPA'),pacut=c(c(0,99),c(1952,Inf)), \n                     epoch=c('1 min','1 min'),\n                     boutsize=c(10,10), tolerance=c('FALSE','TRUE')){\n  \n  myfilenames <- list.files(path = path)\n  newpath <- paste(path,\"/summaryfiles\",sep=\"\")\n  dir.create(newpath,showWarnings='FALSE')\n  \n  for(i in 1:length(myfilenames)){\n    # i <- 1\n    mynchar <- nchar(myfilenames[i])\n    mystr <- substr(myfilenames[i],mynchar-5,mynchar)\n    \n    if(mystr == \".Rdata\"){\n      myfile <- paste(path,\"/\",myfilenames[i],sep=\"\")\n      counts <- NULL\n      load(myfile)\n      myID <- substr(myfilenames[i], 1, mynchar-6)\n      person <- data.frame(ID = myID)\n      if(ncol(counts)==4){\n      summarized <- acc(data = counts, tri=tri, axis=axis,\n                        spuriousDef=spuriousDef, nonwearDef=nonwearDef, minWear=minWear, \n                        patype=patype,pacut=pacut,epoch=epoch,\n                        boutsize=boutsize, tolerance=tolerance)\n      }\n      if(ncol(counts)!=4){\n        summarized <- acc(data = counts, tri='FALSE', axis=NULL,\n                          spuriousDef=spuriousDef, nonwearDef=nonwearDef, minWear=minWear, \n                          patype=patype,pacut=pacut,epoch=epoch,\n                          boutsize=boutsize, tolerance=tolerance)\n      }\n      summary <- merge(person, summarized)\n      file.out <- paste(newpath,\"/summary.\",myID,\".Rdata\",sep=\"\")\n      save(summary, file = file.out) \n    }\n  }\n}\n",
+    "created" : 1512343786676.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2089262129",
+    "id" : "53574EDD",
+    "lastKnownWriteTime" : 1512343705,
+    "last_content_update" : 1512343705,
+    "path" : "Z:/My documents/1packages/acc/R/accBatch.R",
+    "project_path" : "R/accBatch.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

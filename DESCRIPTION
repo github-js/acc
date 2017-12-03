@@ -1,0 +1,28 @@
+Package: acc
+Type: Package
+Title: Exploring Accelerometer Data
+Version: 1.3.8
+Date: 2017-12-03
+Author: Jaejoon Song, Matthew G. Cox
+Maintainer: Jaejoon Song <jjsong2@mdanderson.org>
+Description: Processes accelerometer data from uni-axial and tri-axial devices,
+    and generates data summaries. Also includes functions to plot, analyze, and
+    simulate accelerometer data.
+Depends:
+    R (>= 2.10),
+    mhsmm
+Imports:
+    zoo,
+    PhysicalActivity,
+    nleqslv,
+    plyr,
+    methods,
+    DBI,
+    RSQLite,
+    circlize,
+    ggplot2,
+    R.utils,
+    iterators,
+    RcppRoll
+License: GPL (>= 2)
+RoxygenNote: 5.0.1

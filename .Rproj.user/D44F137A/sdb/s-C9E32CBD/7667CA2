@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n#' @export\n#' @importFrom utils head tail \n#' @importFrom graphics par axis title plot rect legend\n#' @importFrom mhsmm simulate.hmmspec hmmspec dnorm.hsmm rnorm.hsmm\n#' @importFrom PhysicalActivity dataCollapser\n#' \n\n\n\nsimAcc <- function(timelength,paLevel='moderate',epoch=\"1 min\",\n                   startDate=ISOdate(2017,1,1,hour=0,min=0,sec=0,tz=\"GMT\"),\n                   endDate=ISOdate(2017,1,10,hour=24,min=0,sec=0,tz=\"GMT\"),\n                   mu = c(0, 30, 2500),\n                   sigma = c(0, 30, 1000),\n                   seedset=1234,tpm=NULL){\n  \n  \n  randomTime <- seq(startDate,endDate,epoch)\n  \n  # User specified \n  if( is.null(paLevel)==TRUE ){\n    \n    b <- list(mu = mu, sigma = sigma)\n    J <- length(mu); initial <- rep(1/J, J)\n    model <- hmmspec(init = initial, trans = tpm, parms.emission = b,dens.emission = dnorm.hsmm)\n    train <- simulate.hmmspec(model, nsim = (timelength), seed = seedset, rand.emission = rnorm.hsmm)\n    simdata <- data.frame(TimeStamp = randomTime[1:timelength], counts = round(train$x,0))\n    \n  }\n  \n  # Using pre set parameters \n  if( is.null(paLevel)==FALSE ){\n    \n    mu = c(0, 30, 2500)\n    sigma = c(0, 30, 1000)\n    \n    J <- 3; initial <- rep(1/J, J)\n    P <- matrix(rep(NA,9),byrow='TRUE',nrow=J)\n    \n    if(paLevel=='low'){\n      P <- matrix(c(0.95, 0.04, 0.01, \n                    0.09, 0.9, 0.01, \n                    0.1, 0.2, 0.7), byrow='TRUE',nrow = J)\n    }\n    \n    if(paLevel=='moderate'){\n      P <- matrix(c(0.95, 0.04, 0.01, \n                    0.09, 0.8, 0.11, \n                    0.1, 0.1, 0.8), byrow='TRUE',nrow = J)\n    }\n    \n    if(paLevel=='high'){\n      P <- matrix(c(0.95, 0.04, 0.01, \n                    0.09, 0.7, 0.21, \n                    0.1, 0.1, 0.8), byrow='TRUE',nrow = J)\n    }\n    \n    b <- list(mu = mu, sigma = sigma)\n    model <- hmmspec(init = initial, trans = P, parms.emission = b,dens.emission = dnorm.hsmm)\n    train <- simulate.hmmspec(model, nsim = (timelength), seed = seedset, rand.emission = rnorm.hsmm)\n    simdata <- data.frame(TimeStamp = randomTime[1:timelength], counts = round(train$x,0))\n  }\n  \n  simdata\n}\n",
+    "created" : 1512343839049.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1244603474",
+    "id" : "7667CA2",
+    "lastKnownWriteTime" : 1512343842,
+    "last_content_update" : 1512343842623,
+    "path" : "Z:/My documents/1packages/acc/R/simAcc.R",
+    "project_path" : "R/simAcc.R",
+    "properties" : {
+    },
+    "relative_order" : 15,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

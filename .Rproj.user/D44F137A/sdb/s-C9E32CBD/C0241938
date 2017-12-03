@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export\n#' @importFrom stats printCoefmat pnorm\n#' @importFrom methods setClass setMethod\n#' @method summary aeexfit\n\n\nsummary.aeexfit <- function(object, digits = 3, dig.tst = 2, ...) {\n  #if(is.null(digits)) digits <- options()$digits\n  #else options(digits = digits)\n  cat(\"\\nCall:\\n\");   print(object$formula)\n  cat(\"\\nCoefficients:\\n\");  \n  z <- object$beta/object$betaSE\n  pval <- (pnorm(-abs(z)))*2\n  # form <- unlist(strsplit(gsub(\"[[:space:]]\", \"\", as.character(fitted2$formula)), \"[~,+]\"))\n  form <- unlist(strsplit(gsub(\"[[:space:]]\", \"\", as.character(object$formula)), \"[~,+]\"))\n  mylength <- length(form)\n  #betalength <- length(fitted2$beta)\n  betalength <- length(object$beta)\n  coefnames <- form[(mylength-betalength+1):mylength]\n  cmat <- cbind(object$beta,exp(object$beta),object$betaSE,as.vector(z),as.vector(pval))              \n  colnames(cmat) <- c(\"coef\",\"exp(coef)\",\"se(coef)\",\"z\",\"Pr(>|z|)\")\n  rownames(cmat) <- coefnames\n  printCoefmat(cmat, digits, dig.tst,\n               signif.stars = TRUE,\n               signif.legend = TRUE)\n}\n",
+    "created" : 1512343855704.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2209074730",
+    "id" : "C0241938",
+    "lastKnownWriteTime" : 1512343571,
+    "last_content_update" : 1512343571,
+    "path" : "Z:/My documents/1packages/acc/R/summary.aeexfit.R",
+    "project_path" : "R/summary.aeexfit.R",
+    "properties" : {
+    },
+    "relative_order" : 18,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

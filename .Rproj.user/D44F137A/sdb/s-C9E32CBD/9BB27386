@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export\n#' @importFrom utils head tail \n#' @importFrom graphics par axis title plot rect legend mtext text\n#' @importFrom circlize circos.clear circos.par circos.initialize circos.trackPlotRegion circos.lines circos.rect circos.text get.cell.meta.data\n#' @importFrom grDevices dev.new\n\n\n\nracePlot <- function(summary, title,\n                     cex.title=1.8, cex.text=1.4, cex.center=1.5,\n                     color = c(\"cadetblue1\", \"wheat\",\"violetred1\")){\n  ##\n  ## Need code to reset graphical parameters here!!\n  ##\n  dev.new()\n  summaryNames <- colnames(summary)\n  minCols <- substring(summaryNames,(nchar(summaryNames)-6),nchar(summaryNames)) == 'minutes'\n  minNames <- substring(summaryNames,1,(nchar(summaryNames)-8))[minCols]\n  wearMin <- as.numeric(summary[ , which(summaryNames == 'wearTime')])\n  minOther <- summary[ , which(minCols)]\n  dates <- summary[ , 1]\n  numDates <- length(dates)\n  minutes <- as.matrix(cbind(wearMin,minOther))\n  \n  Category <- c(\"Wear Time\",minNames)\n  Category = rev(Category)\n  minutes =  minutes[, rev(seq_len(ncol(minutes)))]\n  color = rev(color)\n  \n  n.window.h <- ceiling(numDates/3)\n  n.window.v <- ceiling(numDates/(numDates/3))\n  par(mfrow=c(n.window.h,n.window.v))\n  par(oma=c(1,1,2,1))  \n  par(mar=c(0,0,2,0))  # mar = c(bottom, left, top, right) \n  \n  \n  for(i in 1:numDates){\n    \n    circos.clear()\n    circos.par(\"start.degree\" = 90)\n    circos.initialize(\"a\", xlim = c(0, (60*24))) # 'a` just means there is one sector\n    circos.trackPlotRegion(ylim = c(0.5, length(minutes[i,])+0.5), track.height = 0.8, \n                           bg.border = NA, panel.fun = function(x, y) {\n                             xlim = get.cell.meta.data(\"xlim\") # in fact, it is c(0, 100)\n                             \n                             for(j in 1:length(Category)) {\n                               circos.lines(xlim, c(j, j), col = \"#CCCCCC\")\n                               minPlot <- (as.numeric(minutes[i,j]))\n                               circos.rect(0, j - 0.45, minPlot, j + 0.45, col = color[j], border = \"white\")\n                             }\n                             \n                             for(j in seq_along(minutes[i,])) {\n                               minPlot <- (as.numeric(minutes[i,j]))\n                               circos.text(xlim[2], j, paste0(Category[j], \" (\", minPlot, \" min\", \")\"), \n                                           adj = c(1, 0.5),cex=cex.text,col=\"gray20\") \n                             }\n                           }\n    )\n    circos.clear()\n    text(0, 0, paste(\"Day \",i,sep=\"\"), col = \"gray50\",cex=cex.center)\n  }\n  \n  mtext(title, outer = TRUE, col = \"gray40\",cex=cex.title)\n}",
+    "created" : 1512343819088.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "321736110",
+    "id" : "9BB27386",
+    "lastKnownWriteTime" : 1512343668,
+    "last_content_update" : 1512343668,
+    "path" : "Z:/My documents/1packages/acc/R/racePlot.R",
+    "project_path" : "R/racePlot.R",
+    "properties" : {
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

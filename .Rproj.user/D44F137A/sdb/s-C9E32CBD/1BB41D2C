@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export\n#' @importFrom utils head tail \n#' @importFrom graphics par axis title plot rect legend\n#' @importFrom mhsmm simulate.hmmspec hmmspec dnorm.hsmm rnorm.hsmm\n#' @importFrom PhysicalActivity dataCollapser\n#' @importFrom DBI dbConnect\n#' @importFrom RSQLite SQLite\n\n\n\nreadCountsBatch <- function(path,filetype=NULL){\n  \n  if(is.null(filetype)=='TRUE'){\n    myfilenames <- list.files(path = path)\n  }\n  if(is.null(filetype)=='FALSE'){\n    allfilenames <- list.files(path = path)\n    myfilenames = allfilenames[ grep(filetype, allfilenames) ]\n  }\n  newpath <- paste(path,\"/readfiles\",sep=\"\")\n  dir.create(newpath,showWarnings='FALSE')\n  \n  for(i in 1:length(myfilenames)){\n    mynchar <- nchar(myfilenames[i])\n    mystr <- substr(myfilenames[i],mynchar-2,mynchar)\n    \n    if(mystr == \"dat\" | mystr == \"csv\" | mystr == \"agd\"){\n      infilename <- paste(path,\"/\",myfilenames[i],sep=\"\")\n      myID <- substr(myfilenames[i], 1, mynchar-4)\n      counts <- readCounts(infilename)\n      file.out <- paste(newpath,\"/\",myID,\".Rdata\",sep=\"\")\n      save(counts, file = file.out) \n    }\n  }\n}",
+    "created" : 1512343827573.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "821811243",
+    "id" : "1BB41D2C",
+    "lastKnownWriteTime" : 1512343658,
+    "last_content_update" : 1512343658,
+    "path" : "Z:/My documents/1packages/acc/R/readCountsBatch.R",
+    "project_path" : "R/readCountsBatch.R",
+    "properties" : {
+    },
+    "relative_order" : 13,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

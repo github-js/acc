@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export\n#' @importFrom utils head tail \n#' @importFrom graphics par axis title plot rect legend\n#' @importFrom mhsmm simulate.hmmspec hmmspec dnorm.hsmm rnorm.hsmm\n#' @importFrom PhysicalActivity dataCollapser\n\nacc <- function(data, tri='FALSE', axis=NULL,\n                spuriousDef=20, nonwearDef=60, minWear=600, \n                patype=c('Sedentary','MVPA'),pacut=c(c(0,99),c(1952,Inf)), \n                epoch=c('1 min','1 min'),\n                boutsize=c(10,10), tolerance=c('FALSE','TRUE')){\n  \n  summaryByPA <- list() \n  \n  if(length(patype)!=0){\n    for(i in 1:length(patype)){ \n      summaryByPA[[patype[i]]] <- accSummary(data=data, tri=tri, axis=axis,\n                                             spuriousDef=spuriousDef, \n                                             nonwearDef=nonwearDef, minWear=minWear, \n                                             patype=patype[i],epoch=epoch[i],\n                                             pacut=c(pacut[seq(1, length(pacut), 2)][i],pacut[seq(2, length(pacut), 2)][i]), \n                                             boutsize=boutsize[i], tolerance=tolerance[i],returnbout='FALSE')\n    }\n  }\n  \n  summary <- Reduce(function(...) merge(..., all=TRUE), summaryByPA)\n  summary[is.na(summary)] <- 0\n  summary <- summary[ which(summary$wearTime>=minWear), ]\n  summary\n}\n",
+    "created" : 1512343783571.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1716893033",
+    "id" : "4AD85E8D",
+    "lastKnownWriteTime" : 1512343713,
+    "last_content_update" : 1512343713,
+    "path" : "Z:/My documents/1packages/acc/R/acc.R",
+    "project_path" : "R/acc.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
