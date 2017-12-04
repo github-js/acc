@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' NHANES data\n#'\n#' NHANES 2003-04 data\n#'\n#' \\itemize{\n#'   \\item ID: Individual's ID\n#'   \\item Day: Order of the seven day measurement perior 1-7.\n#'   \\item SedentaryMinutes: Sedentary minutes per day in 10 minute bouts.\n#'   \\item numberOfBoutsSed: Number of sedentary bouts per day in 10 minute bouts.\n#'   \\item mvpaMinutes: Minutes of moderate to vigorous physical activity per day in 10 minute bouts.\n#'   \\item numberOfBoutsMVPA: Number of moderate to vigorous physical activity bouts per day in 10 minute bouts.\n#'   \\item wearTime: Wear time per day.\n#'   \\item Gender: Participant's gender.\n#'   \\item Age: Participant's age.\n#'   \\item VO2max: Participant's V02max at baseline.\n#'   \\item raceBI: Participant's race (white=1, otherwise=0).\n#' }\n#'\n#' @docType data\n#' @keywords datasets\n#' @name NHANES\n#' @usage data(NHANES)\n#' @format A data frame with 19323 rows and 11 variables. This consists physical activity data for 2763 individuals.\nNULL",
+    "created" : 1512393478733.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2496004975",
+    "id" : "1D6BC155",
+    "lastKnownWriteTime" : 1512393485,
+    "last_content_update" : 1512393485307,
+    "path" : "Z:/My documents/1packages/acc/R/NHANES.R",
+    "project_path" : "R/NHANES.R",
+    "properties" : {
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

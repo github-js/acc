@@ -10,7 +10,8 @@ Description: Processes accelerometer data from uni-axial and tri-axial devices,
     simulate accelerometer data.
 Depends:
     R (>= 2.10),
-    mhsmm
+    mhsmm,
+    gee
 Imports:
     zoo,
     PhysicalActivity,

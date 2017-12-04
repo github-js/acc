@@ -9,7 +9,7 @@
 data(NHANES)
 }
 \description{
-NHANES 2003 data
+NHANES 2003-04 data
 }
 \details{
 \itemize{

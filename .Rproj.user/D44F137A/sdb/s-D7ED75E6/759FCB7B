@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' NHANES data\n#'\n#' NHANES 2003-04 data\n#'\n#' \\itemize{\n#'   \\item ID: Individual's ID\n#'   \\item Time: Time in minutes for 7 observation days.\n#'   \\item Min: Minutes moderate to vigorous physical activity in 10 minute bouts.\n#'   \\item Female: Binary indicator (1=Female, 0=Male).\n#' }\n#'\n#' @docType data\n#' @keywords datasets\n#' @name nhanesSample\n#' @usage data(nhanesSample)\n#' @format A data frame with 184 rows and 4 variables, for 100 randomly sampled individuals in the NHANES 2003-04. This consists physical activity data for 100 individuals.\nNULL",
+    "created" : 1512343810622.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "905074346",
+    "id" : "759FCB7B",
+    "lastKnownWriteTime" : 1512393538,
+    "last_content_update" : 1512393538967,
+    "path" : "Z:/My documents/1packages/acc/R/nhanesSample.R",
+    "project_path" : "R/nhanesSample.R",
+    "properties" : {
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,6 +1,6 @@
 #' NHANES data
 #'
-#' NHANES 2003 data
+#' NHANES 2003-04 data
 #'
 #' \itemize{
 #'   \item ID: Individual's ID
