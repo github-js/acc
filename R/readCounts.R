@@ -4,7 +4,10 @@
 #' @importFrom stats complete.cases
 
 
-readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',timezone='GMT') {
+readCounts <- function (filename, dateformat = "%y-%b-%d", timeformat = "%H:%M:%S", 
+                        timezone = "GMT") 
+{
+  
   myfiletype <- substring(filename, nchar(filename) - 3, nchar(filename))
   if (myfiletype == ".dat" | myfiletype == ".csv") {
     Tfile <- file(filename, "r")
@@ -26,7 +29,8 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
                       "", lines[startDPos])
     deviceName = head(strsplit(deviceName, split = " ")[[1]], 
                       1)
-    if (substring(deviceName, 1, 1) != "G" & substring(deviceName, 1, 1) != "w" ) {
+    if (substring(deviceName, 1, 1) != "G" & substring(deviceName, 
+                                                       1, 1) != "w") {
       deviceName = gsub("------------ Data Table File Created By ActiGraph ", 
                         "", lines[startDPos])
       deviceName = head(strsplit(deviceName, split = " ")[[1]], 
@@ -39,29 +43,11 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
     startDatePos = grep("Start Date ", lines)
     startDateChr = gsub("Start Date ", "", lines[startDatePos])
     startDateChr = gsub("\\,", "", startDateChr)
-    startDateChr = gsub("[[:blank:]]", "", startDateChr)
-    if (grepl("/", startDateChr) == TRUE) {
-      startDate = strsplit(startDateChr, "/")[[1]]
-      if (nchar(startDate[1]) == 1) {
-        startDate[1] = paste("0", startDate[1], sep = "")
-      }
-      if (nchar(startDate[2]) == 1) {
-        startDate[2] = paste("0", startDate[2], sep = "")
-      }
-      startDate = paste(startDate[3], startDate[1], startDate[2], 
-                        sep = "-")
-    }
-    if (grepl("-", startDateChr) == TRUE) {
-      startDate = strsplit(startDateChr, "-")[[1]]
-      if (nchar(startDate[1]) == 1) {
-        startDate[1] = paste("0", startDate[1], sep = "")
-      }
-      if (nchar(startDate[2]) == 1) {
-        startDate[2] = paste("0", startDate[2], sep = "")
-      }
-      startDate = paste(startDate[3], startDate[2], startDate[1], 
-                        sep = "-")
-    }
+    startDateChr = gsub("[[:blank:]]", "", startDateChr)        
+    startDateOriginal = startDateChr
+    startDateChr = strptime(as.character(startDateChr), dateformat)
+    startDate <- substring(startDateChr, 1, 10)
+    
     rawTimeStamp1 = paste(startDate, startTime, sep = " ")
     epochTime = gsub("Epoch Period (hh:mm:ss) ", "", lines[startEPos])
     epochTime = gsub("\\,", "", epochTime)
@@ -111,16 +97,14 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
   cat("\n")
   if (myfiletype == ".dat" | myfiletype == ".csv") {
     startline = skipPos + 1
-    #startline = skipPos + 2
     endline = length(lines)
     col0 = gsub("[[:blank:]]+", " ", lines[startline])
     col = strsplit(col0, c("\\, |\\,| "))[[1]]
     col = length(col[col != ""])
     timeline = c()
     if (substring(gsub("[[:blank:]]+", " ", lines[startline])[1], 
-                  1, 4) != "Date" &
-        substring(gsub("[[:blank:]]+", " ", lines[startline])[1], 
-                  1, 4) != "Axis" ) {
+                  1, 4) != "Date" & substring(gsub("[[:blank:]]+", 
+                                                   " ", lines[startline])[1], 1, 4) != "Axis") {
       mymatrix <- matrix(NA, (endline - startline + 1), 
                          col)
       for (i in startline:endline) {
@@ -130,7 +114,7 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
         if (length(temp) > 0) {
           mymatrix[(i - startline + 1), 1:length(temp)] <- temp
         }
-      } #head(mymatrix); # View(t(mymatrix)) # View(counts) # View(as.vector(t(mymatrix)))
+      }
       counts = as.numeric(as.vector(t(mymatrix)))
       counts <- counts[!is.na(counts)]
       if (type == "uni-axial") {
@@ -166,9 +150,8 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
       }
     }
     if (substring(gsub("[[:blank:]]+", " ", lines[startline])[1], 
-                  1, 4) == "Date" & 
-        substring(gsub("[[:blank:]]+", " ", lines[startline])[1], 
-                  1, 4) != "Axis" ) {
+                  1, 4) == "Date" & substring(gsub("[[:blank:]]+", 
+                                                   " ", lines[startline])[1], 1, 4) != "Axis") {
       mymatrix <- matrix(NA, (endline - startline), col)
       for (i in startline:endline) {
         temp0 = gsub("[[:blank:]]+", " ", lines[i])
@@ -188,7 +171,6 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
                                                                                                          4], z = mymatrix[, 5])
       }
     }
-    
     if (substring(gsub("[[:blank:]]+", " ", lines[startline])[1], 
                   1, 4) == "Axis" & type == "tri-axial") {
       mymatrix <- matrix(NA, (endline - startline), col)
@@ -200,14 +182,16 @@ readCounts <- function (filename, dateformat='%y-%b-%d', timeformat='%H:%M:%S',t
           mymatrix[(i - startline), 1:length(temp)] <- temp
         }
       }
-      startingTime <- strptime(paste(startDate,startTime),format=paste(dateformat,timeformat),tz=timezone)
-      timesequence <- seq(from=startingTime,by=paste(ep,'sec'),length=(endline - startline))
+      startingTime <- strptime(paste(startDate, startTime), 
+                               format = paste('%Y-%m-%d', timeformat), tz = timezone)
+      timesequence <- seq(from = startingTime, by = paste(ep, 
+                                                          "sec"), length = (endline - startline))
       if (type == "tri-axial") {
-        data = data.frame(TimeStamp = timesequence, x = as.numeric(mymatrix[, 1]), 
-                          y = as.numeric(mymatrix[, 2]), z = as.numeric(mymatrix[, 3]))
-      } # View(data)
+        data = data.frame(TimeStamp = timesequence, x = as.numeric(mymatrix[, 
+                                                                            1]), y = as.numeric(mymatrix[, 2]), z = as.numeric(mymatrix[, 
+                                                                                                                                        3]))
+      }
     }
-    
   }
   if (myfiletype == ".agd") {
     counts <- DBI::dbReadTable(con, "data")

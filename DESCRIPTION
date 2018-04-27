@@ -1,8 +1,8 @@
 Package: acc
 Type: Package
 Title: Exploring Accelerometer Data
-Version: 1.3.8
-Date: 2017-12-03
+Version: 1.3.9
+Date: 2018-04-26
 Author: Jaejoon Song, Matthew G. Cox
 Maintainer: Jaejoon Song <jjsong2@mdanderson.org>
 Description: Processes accelerometer data from uni-axial and tri-axial devices,
